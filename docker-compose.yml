@@ -1,0 +1,22 @@
+version: "3"
+services:
+  cockroach-init:
+    image: cockroachdb/cockroach:v${cockroachdb_version}
+    depends_on:
+      - cockroach
+    command:
+      - init
+      - --insecure
+      - --host=cockroach
+  cockroach:
+    image: cockroachdb/cockroach:v${cockroachdb_version}
+    ports:
+      - "9090:8080"
+      - "26257:26257"
+    restart: on-failure
+    command:
+      - start-single-node
+      - --insecure
+      - --max-sql-memory=.25
+      - --cache=.25
+
